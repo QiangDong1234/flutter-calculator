@@ -42,6 +42,10 @@ class _CalculatorHomePageState extends State<CalculatorHomePage> {
       } else if (value == '=') {
         try {
           final evaluator = const ExpressionEvaluator();
+          // Handle square and modulo in expression
+          if (_expression.contains('^')) {
+            _expression = _expression.replaceAll('^2', '**2');
+          }
           var expr = Expression.parse(_expression);
           var r = evaluator.eval(expr, {});
           _result = r.toString();
@@ -127,10 +131,18 @@ class _CalculatorHomePageState extends State<CalculatorHomePage> {
           ),
           Row(
             children: <Widget>[
-              _buildButton('C'),
-              _buildButton('0'),
+              _buildButton('^2'), // Button for squaring the number
+              _buildButton('%'), // Button for modulo operation
               _buildButton('='),
               _buildButton('+'),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              _buildButton('C'),
+              _buildButton('0'),
+              _buildButton('.'), // Button for decimal point
+              _buildButton('*'),
             ],
           ),
         ],
